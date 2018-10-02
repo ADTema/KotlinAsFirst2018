@@ -63,13 +63,15 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): Unit =
-    if (age % 10 == 0 || age % 10 == 5 || age % 10 == 6 || age % 10 == 7 || age % 10 == 8 || age % 10 == 9 ||
-            age % 100 == 11 || age % 100 == 12 || age % 100 == 13 || age % 100 == 14) {
-        println("$age лет")
-    } else if (age % 10 == 2 && age % 10 == 3 && age % 10 == 4 && (age / 10) % 10 != 1) {
-        println("$age года")
-    } else println("$age год")
+fun ageDescription(age: Int): String =
+        if (age % 10 == 0 || age % 10 == 5 || age % 10 == 6 || age % 10 == 7 || age % 10 == 8 || age % 10 == 9 ||
+                age % 100 == 11 || age % 100 == 12 || age % 100 == 13 || age % 100 == 14) {
+            ("$age лет")
+        } else if (age % 10 == 2 || age % 10 == 3 || age % 10 == 4 && (age / 10) % 10 != 1) {
+            ("$age года")
+        } else {
+            ("$age год")
+        }
 
 
 /**
@@ -128,15 +130,29 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Unit =
-    if ((c in (a + 1)..(b - 1)) && (d > b)) {
-        println(b - c)
-    } else if (a in (c + 1)..(d - 1) && d < b) {
-        println(d - a)
-    } else if (c in (a + 1)..(b - 1) && d in (a + 1)..(b - 1)) {
-        println(d - c)
-    } else if (a in (c + 1)..(d - 1) && b in (c + 1)..(d - 1)) {
-        println(b - a)
-    } else {
-        println("-1")
-    }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+        if ((c in (a + 1)..(b - 1)) && (d > b)) {
+            (b - c)
+        } else if (a in (c + 1)..(d - 1) && d < b) {
+            (d - a)
+        } else if (c in (a + 1)..(b - 1) && d in (a + 1)..(b - 1)) {
+            (d - c)
+        } else if (a in (c + 1)..(d - 1) && b in (c + 1)..(d - 1)) {
+            (b - a)
+        } else if (a == c && b == d) {
+            (b - a)
+        } else if (a == c) {
+            if (b > d) {
+                (d - c)
+            } else {
+                (b - a)
+            }
+        } else if (b == d) {
+            if (a > c) {
+                (b - a)
+            } else {
+                (d - c)
+            }
+        } else {
+            (-1)
+        }
