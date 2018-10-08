@@ -86,6 +86,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double = TODO()
 
+
 /**
  * Простая
  *
@@ -97,7 +98,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int = when {
+    ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 3
+    (kingX == rookX1 || kingY == rookY1) -> 1
+    (kingX == rookX2 || kingY == rookY2) -> 2
+    else -> {
+        0
+    }
+}
 
 /**
  * Простая
@@ -121,7 +129,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int = when {
+    (a * a + b * b < c * c) -> 2
+    (a * a + b * b > c * c) -> 0
+    (a * a + b * b == c * c) -> 1
+    else -> {
+        -1
+    }
+}
 
 /**
  * Средняя
