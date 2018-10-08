@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -119,7 +120,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int = when {
+    (((kingX == rookX) || (kingY == rookY)) && (abs(kingX - bishopX) == abs(kingY - bishopY))) -> 3
+    (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 2
+    ((kingX == rookX) || (kingY == rookY)) -> 1
+    else -> 0
+}
 
 /**
  * Простая
@@ -130,12 +136,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int = when {
-    (a * a + b * b < c * c) -> 2
-    (a * a + b * b > c * c) -> 0
-    (a * a + b * b == c * c) -> 1
-    else -> {
-        -1
-    }
+    (a + b <= c) || (b + c <= b) || (c + a <= b) -> -1
+    ((a * a + b * b < c * c) || (c * c + b * b < a * a) || (a * a + c * c < b * b)) -> 2
+    ((a * a + b * b > c * c) || (c * c + b * b > a * a) || (a * a + c * c > b * b)) -> 0
+    else -> 1
 }
 
 /**
