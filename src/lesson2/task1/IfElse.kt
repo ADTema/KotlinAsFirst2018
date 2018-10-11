@@ -66,10 +66,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String =
-        if (age % 10 == 0 || age % 10 == 5 || age % 10 == 6 || age % 10 == 7 || age % 10 == 8 || age % 10 == 9 ||
-                age % 100 == 11 || age % 100 == 12 || age % 100 == 13 || age % 100 == 14) {
+        if (age % 10 == 0 || age % 10 in (5..9) ||
+                age % 100 in (11..14)) {
             ("$age лет")
-        } else if (age % 10 == 2 || age % 10 == 3 || age % 10 == 4 && (age / 10) % 10 != 1) {
+        } else if (age % 10 in (2..4) && (age / 10) % 10 != 1) {
             ("$age года")
         } else {
             ("$age год")
@@ -103,9 +103,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 3
     (kingX == rookX1 || kingY == rookY1) -> 1
     (kingX == rookX2 || kingY == rookY2) -> 2
-    else -> {
-        0
-    }
+    else -> 0
 }
 
 /**
@@ -135,12 +133,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = when {
-    (a + b <= c) || (b + c <= b) || (c + a <= b) -> -1
-    ((a * a + b * b < c * c) || (c * c + b * b < a * a) || (a * a + c * c < b * b)) -> 2
-    ((a * a + b * b > c * c) || (c * c + b * b > a * a) || (a * a + c * c > b * b)) -> 0
-    else -> 1
-}
+fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 
 /**
  * Средняя
@@ -150,10 +143,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = when {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((min(b, d) - max(a, c)) < 0) {
-        return (-1)
-    } else {
-        return (min(b, d) - max(a, c))
-    }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    ((min(b, d) - max(a, c)) < 0) -> -1
+    else -> (min(b, d) - max(a, c))
 }
