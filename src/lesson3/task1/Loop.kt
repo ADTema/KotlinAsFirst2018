@@ -92,9 +92,9 @@ fun fib(n: Int): Int {
     var x = 1
     var v = 1
     var f = 0
-    when {
-        n in 1..2 -> return 1
-        n == 3 -> return 2
+    when (n) {
+        in 1..2 -> return 1
+        3 -> return 2
         else -> for (i in 3..n) {
             f = x + v
             x = v
@@ -112,8 +112,8 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = 1
-    var x = n
-    var t = m
+    val x = n
+    val t = m
     while ((k % x != 0) || (k % t != 0)) {
         k += 1
     }
@@ -127,7 +127,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var m = 2
-    var y = n
+    val y = n
     return when {
         (y % m == 0) -> m
         else -> {
@@ -146,7 +146,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var m = n - 1
-    var y = n
+    val y = n
     return when {
         (y % m == 0) -> m
         else -> {
@@ -192,7 +192,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var s = 0
+    var x1 = x
+    if (x == 1) return 0
+    while (x1 != 1) {
+        if (x1 % 2 == 0) {
+            x1 /= 2
+        } else {
+            x1 = x1 * 3 + 1
+        }
+        s += 1
+    }
+    return s
+}
 
 /**
  * Средняя
@@ -219,7 +232,18 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var w = n
+    var x = 0
+    var z = 0
+    val m = digitNumber(n)
+    for (i in 1..m) {
+        z = w % 10
+        w /= 10
+        x = x * 10 + z
+    }
+    return x
+}
 
 /**
  * Средняя
