@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.floor
 import kotlin.math.sqrt
 
 /**
@@ -111,13 +112,11 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
-    val x = n
-    val t = m
-    while ((k % x != 0) || (k % t != 0)) {
-        k += 1
+    var l = m * n
+    for (k in 1..l) {
+        if (k % m == 0 && k % n == 0 && k < l) l = k
     }
-    return k
+    return l
 }
 
 /**
@@ -165,7 +164,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == n * m
 
 /**
  * Простая
@@ -174,7 +173,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean = (sqrt(m * 1.0) <= floor(sqrt(n * 1.0)))
 
 /**
  * Средняя
@@ -235,12 +234,12 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var w = n
     var x = 0
-    var z = 0
+    var a = 0
     val m = digitNumber(n)
     for (i in 1..m) {
-        z = w % 10
+        a = w % 10
         w /= 10
-        x = x * 10 + z
+        x = x * 10 + a
     }
     return x
 }
