@@ -205,7 +205,7 @@ fun collatzSteps(x: Int): Int {
         }
         l += 1
     }
-    return s
+    return l
 }
 
 /**
