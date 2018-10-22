@@ -126,11 +126,10 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var m = 2
-    val y = n
     return when {
-        (y % m == 0) -> m
+        (n % m == 0) -> m
         else -> {
-            while (y % m != 0) {
+            while (n % m != 0) {
                 m++
             }
             m
