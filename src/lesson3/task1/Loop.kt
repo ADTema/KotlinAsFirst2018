@@ -93,16 +93,18 @@ fun fib(n: Int): Int {
     var x = 1
     var v = 1
     var f = 0
-    when (n) {
-        in 1..2 -> return 1
-        3 -> return 2
-        else -> for (i in 3..n) {
-            f = x + v
-            x = v
-            v = f
+    return when (n) {
+        in 1..2 -> 1
+        3 -> 2
+        else -> {
+            for (i in 3..n) {
+                f = x + v
+                x = v
+                v = f
+            }
+            f
         }
     }
-    return f
 }
 
 /**
@@ -136,6 +138,7 @@ fun minDivisor(n: Int): Int {
         }
     }
 }
+
 
 /**
  * Простая
