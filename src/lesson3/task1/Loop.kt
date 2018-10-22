@@ -194,7 +194,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = (sqrt(m * 1.0) <= floor(sqrt(
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var s = 0
+    var l = 0
     var x1 = x
     if (x == 1) return 0
     while (x1 != 1) {
@@ -203,7 +203,7 @@ fun collatzSteps(x: Int): Int {
         } else {
             x1 = x1 * 3 + 1
         }
-        s += 1
+        l += 1
     }
     return s
 }
