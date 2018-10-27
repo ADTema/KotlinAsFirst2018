@@ -304,7 +304,10 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int =
+        digits.reversed().foldRightIndexed(0) { index, element, sum ->
+            sum + (element * pow(base.toDouble(), index.toDouble())).toInt()
+        }
 
 /**
  * Сложная
@@ -315,7 +318,16 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val t = mutableListOf<Int>()
+    for (i in str.length - 1 downTo 0) {
+        when {
+            str[i] <= '9' -> t.add(str[i].toInt() - 48)
+            else -> t.add(10 + (str[i] - 'a'))
+        }
+    }
+    return decimal(t.reversed(), base)
+}
 
 /**
  * Сложная
@@ -325,7 +337,19 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val Letters: Map<Int, String> = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50
+            to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
+    val r = mutableListOf<String>()
+    var m = n
+    for (key in Letters.keys) {
+        while (m >= key) {
+            r.add(Letters[key].toString())
+            m -= key
+        }
+    }
+    return r.joinToString(separator = "")
+}
 
 /**
  * Очень сложная
@@ -335,3 +359,4 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+}
