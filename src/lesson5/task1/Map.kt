@@ -116,7 +116,18 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val n = mutableMapOf<Int, List<String>>()
+    val k = mutableSetOf<Int>()
+    for (b in grades.values) k += b
+    for (i in k) {
+        val f = mutableListOf<String>()
+        for ((student, mark) in grades)
+            if (mark == i) f += student
+        n += (i to f)
+    }
+    return n
+}
 
 
 /**
@@ -236,7 +247,18 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val f = mutableMapOf<String, Int>()
+    for (l in list) {
+        var r = 0
+        for (h in list)
+            if (l == h)
+                r += 1
+        if (r >= 2)
+            f += (l to r)
+    }
+    return f
+}
 
 /**
  * Средняя
