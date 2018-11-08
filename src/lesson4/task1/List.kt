@@ -120,10 +120,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var n = 0.0
-    if (v.isNotEmpty()) {
-        for (element in v) {
-            n += sqr(element)
-        }
+    for (element in v) {
+        n += sqr(element)
     }
     return sqrt(n)
 }
@@ -134,10 +132,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var n = 0.0
-    if (list.isNotEmpty())
-        n = list.sum() / list.size
-    return n
+    val m = list.sum() / list.size
+    return m
 }
 
 /**
@@ -149,11 +145,9 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val n = mean(list)
-        for (i in 0..(list.size - 1)) {
-            list[i] -= n
-        }
+    val n = mean(list)
+    for (i in 0..(list.size - 1)) {
+        list[i] -= n
     }
     return list
 }
@@ -168,7 +162,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var n = 0.0
     if (a.isNotEmpty()) {
-        for (i in 0..(a.size - 1))
+        for (i in 0 until a.size)
             n += a[i] * b[i]
     }
     return n
@@ -184,10 +178,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var n = 0.0
-    if (p.isNotEmpty()) {
-        for (i in 0..(p.size - 1))
-            n += p[i] * pow(x, i.toDouble())
-    }
+    for (i in 0..(p.size - 1))
+        n += p[i] * pow(x, i.toDouble())
     return n
 }
 
@@ -202,16 +194,12 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var n = 0.0
-    var x = 1.0
-    var t = 0.0
-    if (list.isNotEmpty())
-        for (i in 1..(list.size - 1)) {
-            t = x
-            x += list[i]
-            list[i] += t
-        }
-
+    var x = 0.0
+    for (i in 0..(list.size - 1)) {
+        val t = x
+        x += list[i]
+        list[i] += t
+    }
     return list
 }
 
@@ -250,7 +238,6 @@ fun factorizeToString(n: Int): String {
             x /= i
         }
     }
-    list.sorted()
     return list.joinToString(separator = "*")
 }
 
@@ -338,13 +325,13 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val Letters: Map<Int, String> = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50
+    val letters = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50
             to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
     val r = mutableListOf<String>()
     var m = n
-    for (key in Letters.keys) {
+    for (key in letters.keys) {
         while (m >= key) {
-            r.add(Letters[key].toString())
+            r.add(letters[key].toString())
             m -= key
         }
     }

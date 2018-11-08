@@ -217,7 +217,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
         if (m[i] == b[i]) a.remove(i)
 }
 
-/**
+/**9+
+ *
  * Простая
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
