@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import kotlin.math.floor
+import kotlin.math.max
 import kotlin.math.sqrt
 
 /**
@@ -114,11 +115,20 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var l = m * n
-    for (k in 1..l) {
-        if (k % m == 0 && k % n == 0 && k < l) l = k
+    var a = m
+    var d = n
+    var c = 1
+    val f = max(m, n)
+    if (a == d)
+        return a
+    else for (b in 2..f / 2) {
+        while ((a % b == 0) && (d % b == 0)) {
+            c *= b
+            a /= b
+            d /= b
+        }
     }
-    return l
+    return c * a * d
 }
 
 /**

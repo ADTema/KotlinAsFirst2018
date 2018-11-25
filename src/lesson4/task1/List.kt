@@ -131,10 +131,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    val m = list.sum() / list.size
-    return m
-}
+fun mean(list: List<Double>): Double = list.sum() / list.size
 
 /**
  * Средняя
@@ -161,10 +158,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var n = 0.0
-    if (a.isNotEmpty()) {
-        for (i in 0 until a.size)
-            n += a[i] * b[i]
-    }
+    for (i in 0 until a.size)
+        n += a[i] * b[i]
+
     return n
 }
 
@@ -271,19 +267,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String {
-    var m = n
-    var s = ""
-    while (m > 0) {
-        val digit = m % base
-        if (digit <= 9) {
-            s += digit.toString()
-        } else s += 'a' + (digit - 10)
-        m /= base
-    }
-    return s.reversed()
-}
-
+fun convertToString(n: Int, base: Int): String = TODO()
 /**
  * Средняя
  *

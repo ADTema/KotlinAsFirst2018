@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -49,12 +51,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +71,33 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    val months: Map<String, Int> = mapOf(
+            "января" to 1,
+            "февраля" to 2,
+            "марта" to 3,
+            "апреля" to 4,
+            "мая" to 5,
+            "июня" to 6,
+            "июля" to 7,
+            "августа" to 8,
+            "сентября" to 9,
+            "октября" to 10,
+            "ноября" to 11,
+            "декабря" to 12
+    )
+    val exception = NumberFormatException()
+    return try {
+        if ((parts.size != 3) ||
+                (!months.contains(parts[1])) ||
+                (parts[0].toInt() > 31) ||
+                (parts[0].toInt() > daysInMonth(months[parts[1]]!!, parts[2].toInt()))) throw exception
+        else String.format("%02d.%02d.%d", parts[0].toInt(), months[parts[1]], parts[2].toInt())
+    } catch (e: NumberFormatException) {
+        ""
+    }
+}
 
 /**
  * Средняя
@@ -83,7 +109,33 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    val months: Map<String, String> = mapOf(
+            "01" to "января",
+            "02" to "февраля",
+            "03" to "марта",
+            "04" to "апреля",
+            "05" to "мая",
+            "06" to "июня",
+            "07" to "июля",
+            "08" to "августа",
+            "09" to "сентября",
+            "10" to "октября",
+            "11" to "ноября",
+            "12" to "декабря"
+    )
+    val exception = NumberFormatException()
+    return try {
+        if ((parts.size != 3) ||
+                (!months.contains(parts[1])) ||
+                (parts[0].toInt() > 31) ||
+                (parts[0].toInt() > daysInMonth(parts[1].toInt(), parts[2].toInt()))) throw exception
+        else String.format("%d %s %d", parts[0].toInt(), months[parts[1]], parts[2].toInt())
+    } catch (exception: NumberFormatException) {
+        ""
+    }
+}
 
 /**
  * Средняя
@@ -97,7 +149,13 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String = if (
+        Regex("""\+?\s*(\([\d+(\-*)|(\s*)]\))*\s*([\d+(\-+)|(\s*)])+""")
+                .matches(phone))
+    Regex("""(\s)|([\-])|(\()|(\))""").replace(phone, "")
+else
+    ""
+
 
 /**
  * Средняя
@@ -143,7 +201,20 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val s = str.toLowerCase().split(" ")
+    var o = 0
+    var d = false
+    for (i in 0 until s.size - 1) {
+        if (s[i] == s[i + 1]) {
+            d = true
+            break
+        }
+        o += s[i].length + 1
+    }
+    return if (d) o
+    else -1
+}
 
 /**
  * Сложная
@@ -169,7 +240,35 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    if (roman.isNotEmpty()) {
+        val b: Map<String, Int> = mapOf(
+                "M" to 1000,
+                "D" to 500,
+                "C" to 100,
+                "L" to 50,
+                "X" to 10,
+                "V" to 5,
+                "I" to 1)
+        var r = 0
+        try {
+            for (number in roman) {
+                if (b.contains(number.toString())) {
+                    r += b[number.toString()]!!
+                } else throw NumberFormatException()
+            }
+        } catch (e: NumberFormatException) {
+            return -1
+        }
+        if (Regex("""CM""").containsMatchIn(roman)) r -= 200
+        if (Regex("""CD""").containsMatchIn(roman)) r -= 200
+        if (Regex("""XC""").containsMatchIn(roman)) r -= 20
+        if (Regex("""XL""").containsMatchIn(roman)) r -= 20
+        if (Regex("""IX""").containsMatchIn(roman)) r -= 2
+        if (Regex("""IV""").containsMatchIn(roman)) r -= 2
+        return r
+    } else return -1
+}
 
 /**
  * Очень сложная
