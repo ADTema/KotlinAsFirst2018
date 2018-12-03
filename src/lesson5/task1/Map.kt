@@ -95,15 +95,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val c = (mapA + mapB).toMutableMap()
-    for (name in mapA.keys) {
-        if ((mapA[name] != mapB[name]) && (mapA[name] != null) && (mapB[name] != null)) {
-            val f = mapA[name] + ", " + mapB[name]
-            c[name] = f
-
-        }
+    val m = mapA.toMutableMap()
+    mapB.forEach {
+        val n = mapA[it.key]
+        if (n != it.value && n != null)
+            m[it.key] = "$n, ${it.value}"
+        else m[it.key] = it.value
     }
-    return c
+    return m
 }
 
 /**
@@ -117,15 +116,15 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val n = mutableMapOf<Int, List<String>>()
-    val k = mutableSetOf<Int>()
-    for (b in grades.values) k += b
+    val n = mutableMapOf<Int, MutableList<String>>()
+    val k = grades.values.toSet()
     for (i in k) {
         val f = mutableListOf<String>()
         for ((student, mark) in grades)
             if (mark == i) f += student
         n += (i to f)
     }
+    n.forEach { it.value.sortDescending() }
     return n
 }
 
@@ -211,7 +210,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     val m = a.toMap()
     for (i in m.keys)
         if (m[i] == b[i]) a.remove(i)
@@ -271,25 +270,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    var a = 0
-    var b = 0
-    for (x1 in words) {
-        val s = mutableSetOf<Char>()
-        for (a1 in x1)
-            s += a1
-        for (x2 in words) {
-            for (a2 in x2)
-                if (a2 in s)
-                    a += 1
-            if ((a >= s.size) && (x1.length == x2.length))
-                b += 1
-            a = 0
-        }
-        s.clear()
-        if (b >= (words.size + 2))
-            break
+    val t = mutableMapOf<Set<Char>, Int>()
+    words.forEach {
+        val n = it.toSet()
+        if (t[n] == 1)
+            return true
+        else t[n] = 1
     }
-    return (b >= (words.size + 2))
+    return false
 }
 
 /**
