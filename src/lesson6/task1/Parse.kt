@@ -71,8 +71,8 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String {
-    val parts = str.split(" ")
+fun dateStrToDigit(str: String): String {// Сделано со сторонней помощью(
+    val date = str.split(" ")
     val months: Map<String, Int> = mapOf(
             "января" to 1,
             "февраля" to 2,
@@ -89,11 +89,11 @@ fun dateStrToDigit(str: String): String {
     )
     val exception = NumberFormatException()
     return try {
-        if ((parts.size != 3) ||
-                (!months.contains(parts[1])) ||
-                (parts[0].toInt() > 31) ||
-                (parts[0].toInt() > daysInMonth(months[parts[1]]!!, parts[2].toInt()))) throw exception
-        else String.format("%02d.%02d.%d", parts[0].toInt(), months[parts[1]], parts[2].toInt())
+        if ((date.size != 3) ||
+                (!months.contains(date[1])) ||
+                (date[0].toInt() > 31) ||
+                (date[0].toInt() > daysInMonth(months[date[1]]!!, date[2].toInt()))) throw exception
+        else String.format("%02d.%02d.%d", date[0].toInt(), months[date[1]], date[2].toInt())
     } catch (e: NumberFormatException) {
         ""
     }
@@ -149,13 +149,19 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = if (
-        Regex("""\+?\s*(\([\d+(\-*)|(\s*)]\))*\s*([\d+(\-+)|(\s*)])+""")
-                .matches(phone))
-    Regex("""(\s)|([\-])|(\()|(\))""").replace(phone, "")
-else
-    ""
-
+fun flattenPhoneNumber(phone: String): String {
+    var ph = phone
+    var counts = 0
+    ph = ph.filter { it !in setOf(' ', '-', '(', ')') }
+    if (ph.isNotEmpty()) {
+        ph.forEach {
+            if ((it == '+') || (it.toInt() in '0'.toInt()..'9'.toInt())) // не понимаю почему не работает "(it.toInt() in (0..9)"
+                counts++
+        }
+    }
+    if (counts != ph.length || ph.none { it !in "+" }) return ""
+    return ph
+}
 
 /**
  * Средняя

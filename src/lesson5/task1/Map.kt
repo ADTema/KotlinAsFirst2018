@@ -95,14 +95,13 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val m = mapA.toMutableMap()
-    mapB.forEach {
-        val n = mapA[it.key]
-        if (n != it.value && n != null)
-            m[it.key] = "$n, ${it.value}"
-        else m[it.key] = it.value
+    val all = mapA.toMutableMap()
+    for (i in mapB.keys) {
+        if ((i in all) && (mapB[i] != all[i])) {
+            all[i] = all[i] + ", " + mapB[i]
+        } else all.put(i, mapB[i].toString())
     }
-    return m
+    return all
 }
 
 /**
@@ -115,19 +114,13 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val n = mutableMapOf<Int, MutableList<String>>()
-    val k = grades.values.toSet()
-    for (i in k) {
-        val f = mutableListOf<String>()
-        for ((student, mark) in grades)
-            if (mark == i) f += student
-        n += (i to f)
-    }
-    n.forEach { it.value.sortDescending() }
-    return n
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {// Воспользовался подсказками одногруппника
+    val sp = mutableMapOf<Int, MutableList<String>>()
+    for ((child, mark) in grades)
+        sp.getOrPut(mark, ::mutableListOf).add(child)
+    sp.forEach { it.value.sortDescending() }
+    return sp
 }
-
 
 /**
  * Простая
@@ -233,7 +226,16 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = (a intersect 
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val letters = mutableSetOf<Char>()
+    for (letter in word.toLowerCase()) letters += letter
+    for (letter2 in chars) {
+        if (letter2.toLowerCase() in letters)
+            letters -= letter2.toLowerCase()
+        if (letters.isEmpty()) break
+    }
+    return (letters.isEmpty())
+}
 
 /**
  * Средняя
@@ -247,18 +249,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> {
-    val f = mutableMapOf<String, Int>()
-    for (l in list) {
-        var r = 0
-        for (h in list)
-            if (l == h)
-                r += 1
-        if (r >= 2)
-            f += (l to r)
-    }
-    return f
-}
+fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
 
 /**
  * Средняя
@@ -269,16 +260,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {
-    val t = mutableMapOf<Set<Char>, Int>()
-    words.forEach {
-        val n = it.toSet()
-        if (t[n] == 1)
-            return true
-        else t[n] = 1
-    }
-    return false
-}
+fun hasAnagrams(words: List<String>): Boolean = TODO()
 
 /**
  * Сложная
