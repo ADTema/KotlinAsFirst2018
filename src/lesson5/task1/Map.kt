@@ -249,7 +249,19 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    var col = mapOf<String, Int>()
+    list.forEach{
+        var counts = 0
+        for (i in list) {
+            if (it == i)
+                counts++
+            if (counts >= 2)
+                col += (it to counts)
+        }
+    }
+    return col
+}
 
 /**
  * Средняя
