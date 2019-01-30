@@ -158,7 +158,7 @@ fun flattenPhoneNumber(phone: String): String {
                 counts++
         }
     }
-    if (counts != ph.length || ph.none { it !in "+" }) return ""
+    if (counts != ph.length || ph.none { it !in "+" } || counts > 12) return ""
     return ph
 }
 
