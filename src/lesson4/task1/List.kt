@@ -132,8 +132,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double =
-if (list.isNotEmpty()) list.sum() / list.size
-else 0.0
+        if (list.isNotEmpty()) list.sum() / list.size
+        else 0.0
 
 /**
  * Средняя
@@ -270,6 +270,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String = TODO()
+
 /**
  * Средняя
  *
@@ -310,20 +311,7 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String {
-    val letters = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50
-            to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
-    val r = mutableListOf<String>()
-    var m = n
-    for (key in letters.keys) {
-        while (m >= key) {
-            r.add(letters[key].toString())
-            m -= key
-        }
-    }
-    return r.joinToString(separator = "")
-}
-
+fun roman(n: Int): String = TODO()
 /**
  * Очень сложная
  *

@@ -91,7 +91,6 @@ fun dateStrToDigit(str: String): String {// Сделано со сторонне
     return try {
         if ((date.size != 3) ||
                 (!months.contains(date[1])) ||
-                (date[0].toInt() > 31) ||
                 (date[0].toInt() > daysInMonth(months[date[1]]!!, date[2].toInt()))) throw exception
         else String.format("%02d.%02d.%d", date[0].toInt(), months[date[1]], date[2].toInt())
     } catch (e: NumberFormatException) {
@@ -129,9 +128,10 @@ fun dateDigitToStr(digital: String): String {
     return try {
         if ((parts.size != 3) ||
                 (!months.contains(parts[1])) ||
-                (parts[0].toInt() > 31) ||
                 (parts[0].toInt() > daysInMonth(parts[1].toInt(), parts[2].toInt()))) throw exception
-        else String.format("%d %s %d", parts[0].toInt(), months[parts[1]], parts[2].toInt())
+        else {
+            parts[0].toInt().toString() + " " + months[parts[1]] + " " + parts[2].toInt()
+        }
     } catch (exception: NumberFormatException) {
         ""
     }
@@ -150,9 +150,8 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var ph = phone
     var counts = 0
-    ph = ph.filter { it !in setOf(' ', '-', '(', ')') }
+    val ph = Regex("""[^\d|\+|\w]""").replace(phone, "")
     if (ph.isNotEmpty()) {
         ph.forEach {
             if ((it == '+') || (it.toInt() in '0'.toInt()..'9'.toInt())) // не понимаю почему не работает "(it.toInt() in (0..9)"
@@ -174,6 +173,7 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int = TODO()
+
 
 /**
  * Сложная
@@ -207,20 +207,7 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int {
-    val s = str.toLowerCase().split(" ")
-    var o = 0
-    var d = false
-    for (i in 0 until s.size - 1) {
-        if (s[i] == s[i + 1]) {
-            d = true
-            break
-        }
-        o += s[i].length + 1
-    }
-    return if (d) o
-    else -1
-}
+fun firstDuplicateIndex(str: String): Int = TODO()
 
 /**
  * Сложная
@@ -246,35 +233,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int {
-    if (roman.isNotEmpty()) {
-        val b: Map<String, Int> = mapOf(
-                "M" to 1000,
-                "D" to 500,
-                "C" to 100,
-                "L" to 50,
-                "X" to 10,
-                "V" to 5,
-                "I" to 1)
-        var r = 0
-        try {
-            for (number in roman) {
-                if (b.contains(number.toString())) {
-                    r += b[number.toString()]!!
-                } else throw NumberFormatException()
-            }
-        } catch (e: NumberFormatException) {
-            return -1
-        }
-        if (Regex("""CM""").containsMatchIn(roman)) r -= 200
-        if (Regex("""CD""").containsMatchIn(roman)) r -= 200
-        if (Regex("""XC""").containsMatchIn(roman)) r -= 20
-        if (Regex("""XL""").containsMatchIn(roman)) r -= 20
-        if (Regex("""IX""").containsMatchIn(roman)) r -= 2
-        if (Regex("""IV""").containsMatchIn(roman)) r -= 2
-        return r
-    } else return -1
-}
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная
