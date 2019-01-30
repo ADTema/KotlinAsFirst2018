@@ -151,7 +151,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var counts = 0
-    val ph = Regex("""[^\d|\+|\w]""").replace(phone, "")
+    val ph = Regex("""[^\d|\+|\w|\[|\]]""").replace(phone, "")
     if (ph.isNotEmpty()) {
         ph.forEach {
             if ((it == '+') || (it.toInt() in '0'.toInt()..'9'.toInt())) // не понимаю почему не работает "(it.toInt() in (0..9)"
