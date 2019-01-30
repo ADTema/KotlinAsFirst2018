@@ -70,7 +70,32 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val str = File(inputName).readLines().map { it.split(" ") }
+    for (item in str) {
+        val line = mutableListOf<String>()
+        for (word in item) { line.add(grammar(word)) }
+        writer.write(line.joinToString(separator = " "))
+        writer.newLine()
+    }
+    writer.close()
+}
+
+fun grammar(word: String): String {
+    val charList = word.toList()
+    val result = mutableListOf<Char>()
+    if (charList.isEmpty()) return ""
+    val changes = mapOf('ы' to 'и', 'я' to 'а', 'ю' to 'у')
+    var temp = charList[0]
+    for (item in charList) {
+        if (Regex("""(ж|ш|ч|щ)""").matches(temp.toString().toLowerCase()) &&
+                Regex("""(ы|я|ю)""").matches(item.toString().toLowerCase())) {
+            if (item.isLowerCase()) result.add(changes[item.toLowerCase()]!!)
+            else if (item.isUpperCase()) result.add(changes[item.toLowerCase()]!!.toUpperCase())
+        } else result.add(item)
+        temp = item
+    }
+    return result.joinToString(separator = "")
 }
 
 /**
