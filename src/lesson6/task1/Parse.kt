@@ -173,8 +173,22 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
-
+fun bestLongJump(jumps: String): Int {
+    val a = Regex("""[^\d|\%|\-|\s]""").find(jumps)
+    if (a != null) {
+        return -1
+    }
+    Regex("""\d""").find(jumps) ?: return -1
+    val jump = Regex("""[^\d\s]""").replace(jumps, "")
+    val parts = jump.split(Regex("""\s+"""))
+    var m = 0
+    parts.forEach {
+        if (it != "")
+            if (it.toInt() > m)
+                m = it.toInt()
+    }
+    return m
+}
 
 /**
  * Сложная
@@ -186,7 +200,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val a = Regex("""[^\d|\+|\%|\s|\-]""").find(jumps)
+    if (a != null) {
+        return -1
+    }
+    val jump = Regex("""[^(\d+\s\+)]""").replace(jumps, "")
+    print(jump)
+    return 1
+}
 
 /**
  * Сложная
@@ -234,7 +256,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int =TODO()
 
 /**
  * Очень сложная
@@ -273,3 +295,6 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+

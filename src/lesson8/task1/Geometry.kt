@@ -3,10 +3,8 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import lesson4.task1.center
+import kotlin.math.*
 
 /**
  * Точка на плоскости
@@ -78,14 +76,18 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val ans = center.distance(other.center) - radius - other.radius
+        if (ans < 0) return 0.0
+        return ans
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = radius >= center.distance(p)
 }
 
 /**
@@ -105,7 +107,20 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException()
+    var max = 0.0
+    var segment = Segment(Point(0.0, 0.0), Point(0.0, 0.0))
+    for (i in 0 until points.size - 1)
+        for (j in i + 1 until points.size) {
+            val dis = points[i].distance(points[j])
+            if (dis > max) {
+                segment = Segment(points[i], points[j])
+                max = dis
+            }
+        }
+    return segment
+}
 
 /**
  * Простая
@@ -113,7 +128,11 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val center = Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2)
+    val radius = diameter.begin.distance(center)
+    return Circle(center, radius)
+}
 
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
@@ -134,7 +153,20 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val x = (b * cos(other.angle) / cos(angle) - other.b) /
+                (sin(other.angle) - tan(angle) * cos(other.angle))
+        var cos = cos(angle)
+        var tan = tan(angle)
+        var c = b
+        if (cos(angle) < cos(other.angle)) {
+            cos = cos(other.angle)
+            tan = tan(other.angle)
+            c = other.b
+        }
+        val y = c / cos + x * tan
+        return Point(x, y)
+    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -152,14 +184,24 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val b = s.begin
+    val angle = atan((s.end.distance(Point(s.end.x, s.begin.y))) / (s.begin.distance(Point(s.end.x, s.begin.y))))
+    return Line(b, angle)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    val angle: Double = if (a.x == b.x || a.y == b.y)
+        if (a.x == b.x) PI / 2
+        else PI
+    else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y))))
+    return Line(b, angle)
+}
 
 /**
  * Сложная
@@ -167,6 +209,14 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+ //   val angle: Double = if (a.x == b.x || a.y == b.y)
+ //       if (a.x == b.x) PI
+ //       else PI / 2
+ //   else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) - PI / 2
+ //   val r = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+ //   print(Line(r, angle))
+ //   return Line(r, angle)
+//}
 
 /**
  * Средняя

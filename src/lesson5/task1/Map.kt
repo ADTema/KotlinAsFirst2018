@@ -251,7 +251,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     var col = mapOf<String, Int>()
-    list.forEach{
+    list.forEach {
         var counts = 0
         for (i in list) {
             if (it == i)
@@ -291,7 +291,15 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var answer = Pair(-1, -1)
+    for (i in 0 until list.size - 1)
+        for (j in i + 1 until list.size)
+            if (list[i] + list[j] == number) {
+                answer = Pair(i, j)
+            }
+    return answer
+}
 
 /**
  * Очень сложная
