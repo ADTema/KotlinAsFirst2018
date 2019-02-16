@@ -185,11 +185,12 @@ class Line private constructor(val b: Double, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val b = s.begin
-    val angle = atan((s.end.distance(Point(s.end.x, s.begin.y))) / (s.begin.distance(Point(s.end.x, s.begin.y))))
-    return Line(b, angle)
+    val angle: Double = if (s.begin.x == s.end.x || s.begin.y == s.end.y)
+        if (s.begin.x == s.end.x) PI / 2
+        else 0.0
+    else atan((s.end.distance(Point(s.end.x, s.begin.y))) / (s.begin.distance(Point(s.end.x, s.begin.y))))
+    return Line(s.begin, angle)
 }
-
 /**
  * Средняя
  *
@@ -198,7 +199,7 @@ fun lineBySegment(s: Segment): Line {
 fun lineByPoints(a: Point, b: Point): Line {
     val angle: Double = if (a.x == b.x || a.y == b.y)
         if (a.x == b.x) PI / 2
-        else PI
+        else 0.0
     else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y))))
     return Line(b, angle)
 }
@@ -208,15 +209,13 @@ fun lineByPoints(a: Point, b: Point): Line {
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
- //   val angle: Double = if (a.x == b.x || a.y == b.y)
- //       if (a.x == b.x) PI
- //       else PI / 2
- //   else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) - PI / 2
- //   val r = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
- //   print(Line(r, angle))
- //   return Line(r, angle)
-//}
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val angle: Double = if (a.x == b.x || a.y == b.y)
+        if (a.x == b.x) 0.0
+        else PI / 2
+    else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) - PI / 2
+    return Line(Point((a.x + b.x) / 2, (b.y + a.y) / 2), angle)
+}
 
 /**
  * Средняя
