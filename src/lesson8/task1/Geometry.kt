@@ -191,6 +191,7 @@ fun lineBySegment(s: Segment): Line {
     else atan((s.end.distance(Point(s.end.x, s.begin.y))) / (s.begin.distance(Point(s.end.x, s.begin.y))))
     return Line(s.begin, angle)
 }
+
 /**
  * Средняя
  *
@@ -213,7 +214,10 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     val angle: Double = if (a.x == b.x || a.y == b.y)
         if (a.x == b.x) 0.0
         else PI / 2
-    else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) - PI / 2
+    else
+        if (atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) in (PI / 2..PI))
+            atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) - PI / 2
+        else atan((a.distance(Point(b.x, a.y))) / (b.distance(Point(b.x, a.y)))) + PI / 2
     return Line(Point((a.x + b.x) / 2, (b.y + a.y) / 2), angle)
 }
 
