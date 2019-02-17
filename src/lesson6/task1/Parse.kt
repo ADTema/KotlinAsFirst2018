@@ -202,9 +202,9 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val a = Regex("""[^\d|\+|\%|\s|\-]""").find(jumps)
-    if (a != null) {
+    if (a != null)
         return -1
-    }
+    Regex("""\d|\+|\%|\s|\-""").find(jumps) ?: return -1
     val jump = Regex("""[^(\d+\s\+)]""").replace(jumps, "")
     var max = 0
     val res = jump.split(" ")
@@ -226,7 +226,10 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int = TODO()//{
+   // val a = Regex("""[^\d|\+|\s|\-]""").find(expression)
+  //  if (a != null) throw IllegalArgumentException()
+//}
 
 /**
  * Сложная
