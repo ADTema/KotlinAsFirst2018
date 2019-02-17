@@ -208,12 +208,11 @@ fun bestHighJump(jumps: String): Int {
     val jump = Regex("""[^(\d+\s\+)]""").replace(jumps, "")
     var max = 0
     val res = jump.split(" ")
-    for (i in 0 until res.size - 1)
-        for (j in i + 1 until res.size) {
-            val b = Regex("""\d+""").find(res[i])
-            val r = Regex("""\+""").find(res[j])
-            if (b != null && r != null && res[i].toInt() > max) max = res[i].toInt()
-        }
+    for (i in 0 until res.size - 1) {
+        val b = Regex("""\d+""").find(res[i])
+        val r = Regex("""\+""").find(res[i + 1])
+        if (b != null && r != null && res[i].toInt() > max) max = res[i].toInt()
+    }
     return max
 }
 
