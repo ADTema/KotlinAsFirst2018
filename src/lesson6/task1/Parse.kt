@@ -151,6 +151,8 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var counts = 0
+    val qw = Regex("""[^\d|\+|\-|\(|\)|\s]""").find(phone)
+    if (qw != null) return ""
     Regex("""\d|\+""").find(phone) ?: return ""
     val ph = Regex("""[^\d|\+|\w|\[|\]]""").replace(phone, "")
     if (ph.isNotEmpty()) {
