@@ -4,6 +4,7 @@ package lesson8.task1
 
 import lesson1.task1.sqr
 import lesson4.task1.center
+import lesson6.task1.bestHighJump
 import kotlin.math.*
 
 /**
@@ -184,14 +185,18 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    val angle = atan((a.y - b.y) / (a.x - b.x))
+    return if (angle < 0.0) Line(a, PI + angle)
+    else Line(a, angle)
+}
 
 /**
  * Сложная
@@ -199,12 +204,11 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val angle2 = (b.y - a.y) / (b.x - a.x)
-    var angle = 0.0
-    angle = if (angle2 == 0.0) PI / 2
-    else 1 / angle2
-    print(angle)
-    return Line(Point((a.x + b.x) / 2, (b.y + a.y) / 2), angle)
+    val p = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    val line = lineByPoints(a, b)
+    val angle = if (line.angle < PI / 2) line.angle + PI / 2
+    else line.angle - PI / 2
+    return Line(p, angle)
 }
 
 /**
