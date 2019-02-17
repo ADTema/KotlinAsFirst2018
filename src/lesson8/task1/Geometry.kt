@@ -193,9 +193,14 @@ fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line {
-    val angle = atan((a.y - b.y) / (a.x - b.x))
-    return if (angle < 0.0) Line(a, PI + angle)
-    else Line(a, angle)
+    var angle = atan((a.y - b.y) / (a.x - b.x))
+    when {
+        a.x == b.x -> angle = PI / 2
+        a.y == b.y -> angle = 0.0
+        angle < 0.0 -> angle += PI
+    }
+    return Line(a, angle)
+
 }
 
 /**
