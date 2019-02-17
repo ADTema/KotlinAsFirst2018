@@ -201,7 +201,8 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
 fun bisectorByPoints(a: Point, b: Point): Line {
     val angle2 = (b.y - a.y) / (b.x - a.x)
     var angle = 0.0
-    if (angle2 == 0.0) angle = PI / 2
+    angle = if (angle2 == 0.0) PI / 2
+    else 1 / angle2
     print(angle)
     return Line(Point((a.x + b.x) / 2, (b.y + a.y) / 2), angle)
 }
