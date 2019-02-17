@@ -206,8 +206,15 @@ fun bestHighJump(jumps: String): Int {
         return -1
     }
     val jump = Regex("""[^(\d+\s\+)]""").replace(jumps, "")
-    print(jump)
-    return 1
+    var max = 0
+    val res = jump.split(" ")
+    for (i in 0 until res.size - 1)
+        for (j in i + 1 until res.size) {
+            val b = Regex("""\d+""").find(res[i])
+            val r = Regex("""\+""").find(res[j])
+            if (b != null && r != null && res[i].toInt() > max) max = res[i].toInt()
+        }
+    return max
 }
 
 /**
@@ -256,7 +263,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int =TODO()
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная
