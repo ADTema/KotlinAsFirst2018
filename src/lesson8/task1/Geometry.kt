@@ -210,9 +210,9 @@ fun bisectorByPoints(a: Point, b: Point): Line {
         if (a.x == b.x) 0.0
         else PI / 2
     else
-        if (asin((a.distance(Point(b.x, a.y))) / (b.distance(a))) in (PI / 2..PI))
-            asin((a.distance(Point(b.x, a.y))) / (b.distance(a))) - PI / 2
-        else asin((a.distance(Point(b.x, a.y))) / (b.distance(a))) + PI / 2
+        if (atan2(abs(b.y - a.y), abs(b.x - a.x)) in (PI / 2..PI))
+            atan2(abs(b.y - a.y), abs(b.x - a.x)) - PI / 2
+        else atan2(abs(b.y - a.y), abs(b.x - a.x)) + PI / 2
     return Line(Point((a.x + b.x) / 2, (b.y + a.y) / 2), angle)
 }
 
